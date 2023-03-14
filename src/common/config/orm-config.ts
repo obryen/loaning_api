@@ -1,7 +1,4 @@
-import { EnvironmentVariables, getConfigFromEnv } from './configuration.dto';
-import * as util from 'util';
-import { join } from 'path';
-import { config } from 'process';
+import { getConfigFromEnv } from './configuration.dto';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { DatabaseSeed1678700240483 } from '../../migrations/1678700240483-DatabaseSeed';
 
@@ -11,7 +8,6 @@ import { DatabaseSeed1678700240483 } from '../../migrations/1678700240483-Databa
  */
 export const getOrmConfiguration = (): TypeOrmModuleOptions => {
   const configuration = getConfigFromEnv();
-  console.log('files  :', util.inspect(configuration))
   return {
     type: 'postgres',
     host: configuration.dbHost,
@@ -29,9 +25,3 @@ export const getOrmConfiguration = (): TypeOrmModuleOptions => {
   ;
 };
 
-
-function getMigrationDirectory(configs: EnvironmentVariables) {
-  const directory = configs.environment === 'development' ? __dirname : __dirname;
-  console.log('resolved dir', join(directory, 'migrations', '*.{ts,js}'));
-  return join(directory, 'migration', '*.{ts,js}');
-}
